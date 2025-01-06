@@ -4,8 +4,13 @@
  */
 package com.employeesystem.views;
 
+import com.employeesystem.controller.algorithms.BinarySearch;
+import com.employeesystem.controller.algorithms.InsertionSort;
+import com.employeesystem.controller.algorithms.MergeSort;
+import com.employeesystem.controller.algorithms.SelectionSort;
 import com.employeesystem.model.EmployeeModel;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,6 +23,11 @@ public class UserFrame extends javax.swing.JFrame {
     //Creating a new Array List
     ArrayList<EmployeeModel> arrayList = new ArrayList<EmployeeModel>();
     DefaultTableModel employeeTable;
+    
+    //Creating Objects for Sorting classes
+    SelectionSort selectionSort = new SelectionSort();
+    InsertionSort insertionSort = new InsertionSort();
+    MergeSort mergeSort = new MergeSort();
     /**
      * Creates new form UserFrame
      */
@@ -55,6 +65,11 @@ public class UserFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableEmployeeInformation = new javax.swing.JTable();
         lblTableinfo = new javax.swing.JLabel();
+        cmbboxSortbyID = new javax.swing.JComboBox<>();
+        cmbboxSortbyName = new javax.swing.JComboBox<>();
+        cmbboxSortbyPosition = new javax.swing.JComboBox<>();
+        txtFldSearch = new javax.swing.JTextField();
+        btnSeach = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1540, 960));
@@ -248,27 +263,92 @@ public class UserFrame extends javax.swing.JFrame {
         lblTableinfo.setForeground(new java.awt.Color(255, 204, 0));
         lblTableinfo.setText("The details of all employees are given in the table below.");
 
+        cmbboxSortbyID.setBackground(new java.awt.Color(255, 204, 0));
+        cmbboxSortbyID.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        cmbboxSortbyID.setForeground(new java.awt.Color(0, 102, 204));
+        cmbboxSortbyID.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort by ID", "Ascending", "Decending" }));
+        cmbboxSortbyID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbboxSortbyIDActionPerformed(evt);
+            }
+        });
+
+        cmbboxSortbyName.setBackground(new java.awt.Color(255, 204, 0));
+        cmbboxSortbyName.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        cmbboxSortbyName.setForeground(new java.awt.Color(0, 102, 204));
+        cmbboxSortbyName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort by Name", "A - Z", "Z - A" }));
+        cmbboxSortbyName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbboxSortbyNameActionPerformed(evt);
+            }
+        });
+
+        cmbboxSortbyPosition.setBackground(new java.awt.Color(255, 204, 0));
+        cmbboxSortbyPosition.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        cmbboxSortbyPosition.setForeground(new java.awt.Color(0, 102, 204));
+        cmbboxSortbyPosition.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort by Position", "A - Z", "Z - A" }));
+        cmbboxSortbyPosition.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbboxSortbyPositionActionPerformed(evt);
+            }
+        });
+
+        txtFldSearch.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        txtFldSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFldSearchActionPerformed(evt);
+            }
+        });
+
+        btnSeach.setBackground(new java.awt.Color(255, 204, 0));
+        btnSeach.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        btnSeach.setForeground(new java.awt.Color(0, 102, 204));
+        btnSeach.setText("Search");
+        btnSeach.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeachActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlEmployeeListsLayout = new javax.swing.GroupLayout(pnlEmployeeLists);
         pnlEmployeeLists.setLayout(pnlEmployeeListsLayout);
         pnlEmployeeListsLayout.setHorizontalGroup(
             pnlEmployeeListsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlEmployeeListsLayout.createSequentialGroup()
-                .addGap(71, 71, 71)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(97, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEmployeeListsLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblTableinfo, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(384, 384, 384))
+            .addGroup(pnlEmployeeListsLayout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addGroup(pnlEmployeeListsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlEmployeeListsLayout.createSequentialGroup()
+                        .addComponent(cmbboxSortbyID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(125, 125, 125)
+                        .addComponent(cmbboxSortbyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(136, 136, 136)
+                        .addComponent(cmbboxSortbyPosition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtFldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
+                        .addComponent(btnSeach))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(97, Short.MAX_VALUE))
         );
         pnlEmployeeListsLayout.setVerticalGroup(
             pnlEmployeeListsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEmployeeListsLayout.createSequentialGroup()
                 .addGap(117, 117, 117)
                 .addComponent(lblTableinfo)
-                .addGap(114, 114, 114)
+                .addGap(74, 74, 74)
+                .addGroup(pnlEmployeeListsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cmbboxSortbyID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbboxSortbyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbboxSortbyPosition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSeach))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(153, Short.MAX_VALUE))
+                .addContainerGap(152, Short.MAX_VALUE))
         );
 
         tabPaneMain.addTab("Employee Details", pnlEmployeeLists);
@@ -316,6 +396,109 @@ public class UserFrame extends javax.swing.JFrame {
         ReturnToLogin(); //Calling Return method
     }//GEN-LAST:event_btnReturnActionPerformed
 
+    private void cmbboxSortbyIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbboxSortbyIDActionPerformed
+        int BoxValue = cmbboxSortbyID.getSelectedIndex();
+
+        if (BoxValue == 1) //Selection Sorting in ascending order
+        {
+            employeeTable.setRowCount(0);
+            List<EmployeeModel> sortedList = selectionSort.sortByEmpID(arrayList, false);
+            for(EmployeeModel employee : sortedList)
+            {
+                AddingEmployeesToTable(employee);
+            }
+        }
+        else if(BoxValue == 2)//Selection Sorting in descending order
+        {
+            employeeTable.setRowCount(0);
+            List<EmployeeModel> sortedList = selectionSort.sortByEmpID(arrayList, true);
+            for(EmployeeModel employee : sortedList)
+            {
+                AddingEmployeesToTable(employee);
+            }
+        }
+        cmbboxSortbyID.setSelectedIndex(0);
+    }//GEN-LAST:event_cmbboxSortbyIDActionPerformed
+
+    private void cmbboxSortbyNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbboxSortbyNameActionPerformed
+        int BoxValue = cmbboxSortbyName.getSelectedIndex();
+
+        if (BoxValue == 1) { //Insertion Sorting in ascending order
+            employeeTable.setRowCount(0);
+            List<EmployeeModel> sortedList = insertionSort.sortByName(arrayList, false);
+            for(EmployeeModel employee : sortedList)
+            {
+                AddingEmployeesToTable(employee);
+            }
+        }
+        else if(BoxValue == 2) {//Insertion Sorting in descending order
+            employeeTable.setRowCount(0);
+            List<EmployeeModel> sortedList = insertionSort.sortByName(arrayList, true);
+            for(EmployeeModel employee : sortedList)
+            {
+                AddingEmployeesToTable(employee);
+            }
+        }
+        cmbboxSortbyName.setSelectedIndex(0);
+    }//GEN-LAST:event_cmbboxSortbyNameActionPerformed
+
+    private void cmbboxSortbyPositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbboxSortbyPositionActionPerformed
+        int BoxValue = cmbboxSortbyPosition.getSelectedIndex();
+
+        if (BoxValue == 1) { //Merge Sorting in ascending order
+            employeeTable.setRowCount(0);
+            List<EmployeeModel> sortedList = mergeSort.sortByPosition(arrayList, false);
+            for(EmployeeModel employee : sortedList)
+            {
+                AddingEmployeesToTable(employee);
+            }
+        }
+        else if(BoxValue == 2) { //Merge Sorting in descending order
+            employeeTable.setRowCount(0);
+            List<EmployeeModel> sortedList = mergeSort.sortByPosition(arrayList, true);
+            for(EmployeeModel employee : sortedList)
+            {
+                AddingEmployeesToTable(employee);
+            }
+        }
+        cmbboxSortbyPosition.setSelectedIndex(0);
+    }//GEN-LAST:event_cmbboxSortbyPositionActionPerformed
+
+    private void txtFldSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFldSearchActionPerformed
+
+    private void btnSeachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeachActionPerformed
+        // Sort in ascending order (false parameter) for binary search to work correctly
+        List<EmployeeModel> sortedList = insertionSort.sortByName(arrayList, false);
+
+        // Input validation
+        String searchText = txtFldSearch.getText().trim();
+        if (searchText.isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Please enter a name to search", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        BinarySearch search = new BinarySearch();
+        EmployeeModel searchedData = search.searchByName(searchText, sortedList, 0, sortedList.size()-1);
+
+        if(searchedData != null) {
+            String Result =
+            "Employee Details:\n\n" +
+            "ID: " + searchedData.getEmpID() + "\n" +
+            "Name: " + searchedData.getFullName() + "\n" +
+            "Position: " + searchedData.getPosition() + "\n" +
+            "Address: " + searchedData.getAddress() + "\n" +
+            "Contact: " + searchedData.getContactNo() + "\n" +
+            "Age: " + searchedData.getAge() + "\n" +
+            "Contract Period: " + searchedData.getContractPeriod() + " years";
+
+            JOptionPane.showMessageDialog(rootPane, Result, "Search Result", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Sorry, the person is not in our Database", "Information",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSeachActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -350,9 +533,12 @@ public class UserFrame extends javax.swing.JFrame {
             }
         });
     }
-    
+    /**
+     * Pre-added data in the table
+     */
     public void PreviousEmployeesDetails(){ //Values already stored in table
         
+        //objects creation
         EmployeeModel Employee1 = new EmployeeModel(1, "Ram Bahadur", "Kathmandu", "9841236570", 35, "Developer", 5);
         EmployeeModel Employee2 = new EmployeeModel(2, "Shyam Nepal", "Bhaktapur", "9841236571", 25, "Tester", 2);
         EmployeeModel Employee3 = new EmployeeModel(3, "Krishna Lal", "Lalitpur", "9841236572", 32, "Designer", 6);
@@ -364,6 +550,7 @@ public class UserFrame extends javax.swing.JFrame {
         EmployeeModel Employee9 = new EmployeeModel(9, "Raj Malla", "Bhaktapur", "9841236578", 31, "Manager", 3);
         EmployeeModel Employee10 = new EmployeeModel(10, "Puspa Singh", "Kathmandu", "9841236579", 45, "Designer", 10);
         
+        //adding the data in both table and arraylist
         arrayList.add(Employee1);
         AddingEmployeesToTable(Employee1);
         arrayList.add(Employee2);
@@ -386,13 +573,19 @@ public class UserFrame extends javax.swing.JFrame {
         AddingEmployeesToTable(Employee10);
         
     }
-    
+    /**
+     * Adding new data into the table
+     * @param Employee parameter passed to extract data from EmployeeModel
+     */
      public void AddingEmployeesToTable(EmployeeModel Employee){
         
         employeeTable = (DefaultTableModel) tableEmployeeInformation.getModel();
         employeeTable.addRow(new Object[]{Employee.getEmpID(), Employee.getFullName(), Employee.getAddress(), Employee.getContactNo(), Employee.getAge(), Employee.getPosition(), Employee.getContractPeriod()});
     }
     
+     /**
+      * Button process/logic for returning back to Login page
+      */
     public void ReturnToLogin(){ //Returning to login
         EmployeeApp Return = new EmployeeApp();
         int choiceofUser =  JOptionPane.showConfirmDialog(rootPane, "Do you want to return back to login page??", "Confirmation", JOptionPane.YES_NO_OPTION);
@@ -405,6 +598,10 @@ public class UserFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReturn;
+    private javax.swing.JButton btnSeach;
+    private javax.swing.JComboBox<String> cmbboxSortbyID;
+    private javax.swing.JComboBox<String> cmbboxSortbyName;
+    private javax.swing.JComboBox<String> cmbboxSortbyPosition;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBarImage;
     private javax.swing.JLabel lblDescription;
@@ -423,5 +620,6 @@ public class UserFrame extends javax.swing.JFrame {
     private javax.swing.JPanel pnlMainAdmin;
     private javax.swing.JTabbedPane tabPaneMain;
     private javax.swing.JTable tableEmployeeInformation;
+    private javax.swing.JTextField txtFldSearch;
     // End of variables declaration//GEN-END:variables
 }

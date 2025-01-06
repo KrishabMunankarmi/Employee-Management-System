@@ -5,8 +5,13 @@
 package com.employeesystem.views;
 
 //importing all necessary components
+import com.employeesystem.controller.algorithms.BinarySearch;
+import com.employeesystem.controller.algorithms.InsertionSort;
+import com.employeesystem.controller.algorithms.MergeSort;
+import com.employeesystem.controller.algorithms.SelectionSort;
 import com.employeesystem.model.EmployeeModel;
 import java.util.LinkedList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,8 +22,14 @@ import javax.swing.table.DefaultTableModel;
 public class AdminFrame extends javax.swing.JFrame {
 
     //Creating a new Linked List
-    LinkedList<EmployeeModel> linkedList = new LinkedList<EmployeeModel>();
+    List<EmployeeModel> linkedList = new LinkedList<EmployeeModel>();
     DefaultTableModel employeeTable;
+    
+    //Creating Objects for Sorting classes
+    SelectionSort selectionSort = new SelectionSort();
+    InsertionSort insertionSort = new InsertionSort();
+    MergeSort mergeSort = new MergeSort();
+    
     /**
      * Creates new form AdminFrame
      */
@@ -57,6 +68,11 @@ public class AdminFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableEmployeeInformation = new javax.swing.JTable();
         lblTableinfo = new javax.swing.JLabel();
+        cmbboxSortbyID = new javax.swing.JComboBox<>();
+        cmbboxSortbyName = new javax.swing.JComboBox<>();
+        txtFldSearch = new javax.swing.JTextField();
+        btnSeach = new javax.swing.JButton();
+        cmbboxSortbyPosition = new javax.swing.JComboBox<>();
         pnlAdminDashboard = new javax.swing.JPanel();
         pnlFormTitle = new javax.swing.JPanel();
         lblFormTitle = new javax.swing.JLabel();
@@ -80,9 +96,7 @@ public class AdminFrame extends javax.swing.JFrame {
         lblContract = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1540, 960));
         setMinimumSize(new java.awt.Dimension(1540, 960));
-        setPreferredSize(new java.awt.Dimension(1540, 960));
 
         pnlMainAdmin.setBackground(new java.awt.Color(255, 204, 0));
         pnlMainAdmin.setMaximumSize(new java.awt.Dimension(1540, 960));
@@ -270,6 +284,53 @@ public class AdminFrame extends javax.swing.JFrame {
         lblTableinfo.setForeground(new java.awt.Color(255, 204, 0));
         lblTableinfo.setText("The details of all employees are given in the table below.");
 
+        cmbboxSortbyID.setBackground(new java.awt.Color(255, 204, 0));
+        cmbboxSortbyID.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        cmbboxSortbyID.setForeground(new java.awt.Color(0, 102, 204));
+        cmbboxSortbyID.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort by ID", "Ascending", "Decending" }));
+        cmbboxSortbyID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbboxSortbyIDActionPerformed(evt);
+            }
+        });
+
+        cmbboxSortbyName.setBackground(new java.awt.Color(255, 204, 0));
+        cmbboxSortbyName.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        cmbboxSortbyName.setForeground(new java.awt.Color(0, 102, 204));
+        cmbboxSortbyName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort by Name", "A - Z", "Z - A" }));
+        cmbboxSortbyName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbboxSortbyNameActionPerformed(evt);
+            }
+        });
+
+        txtFldSearch.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        txtFldSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFldSearchActionPerformed(evt);
+            }
+        });
+
+        btnSeach.setBackground(new java.awt.Color(255, 204, 0));
+        btnSeach.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        btnSeach.setForeground(new java.awt.Color(0, 102, 204));
+        btnSeach.setText("Search");
+        btnSeach.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeachActionPerformed(evt);
+            }
+        });
+
+        cmbboxSortbyPosition.setBackground(new java.awt.Color(255, 204, 0));
+        cmbboxSortbyPosition.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        cmbboxSortbyPosition.setForeground(new java.awt.Color(0, 102, 204));
+        cmbboxSortbyPosition.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sort by Position", "A - Z", "Z - A" }));
+        cmbboxSortbyPosition.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbboxSortbyPositionActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlEmployeeListsLayout = new javax.swing.GroupLayout(pnlEmployeeLists);
         pnlEmployeeLists.setLayout(pnlEmployeeListsLayout);
         pnlEmployeeListsLayout.setHorizontalGroup(
@@ -277,19 +338,37 @@ public class AdminFrame extends javax.swing.JFrame {
             .addGroup(pnlEmployeeListsLayout.createSequentialGroup()
                 .addGroup(pnlEmployeeListsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlEmployeeListsLayout.createSequentialGroup()
-                        .addGap(80, 80, 80)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1370, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnlEmployeeListsLayout.createSequentialGroup()
                         .addGap(426, 426, 426)
-                        .addComponent(lblTableinfo, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblTableinfo, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlEmployeeListsLayout.createSequentialGroup()
+                        .addGap(80, 80, 80)
+                        .addGroup(pnlEmployeeListsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlEmployeeListsLayout.createSequentialGroup()
+                                .addComponent(cmbboxSortbyID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(79, 79, 79)
+                                .addComponent(cmbboxSortbyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(93, 93, 93)
+                                .addComponent(cmbboxSortbyPosition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtFldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(36, 36, 36)
+                                .addComponent(btnSeach)))))
                 .addContainerGap(220, Short.MAX_VALUE))
         );
         pnlEmployeeListsLayout.setVerticalGroup(
             pnlEmployeeListsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEmployeeListsLayout.createSequentialGroup()
-                .addContainerGap(107, Short.MAX_VALUE)
+                .addContainerGap(106, Short.MAX_VALUE)
                 .addComponent(lblTableinfo)
-                .addGap(97, 97, 97)
+                .addGap(57, 57, 57)
+                .addGroup(pnlEmployeeListsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtFldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSeach)
+                    .addComponent(cmbboxSortbyID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbboxSortbyName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbboxSortbyPosition, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(180, 180, 180))
         );
@@ -575,6 +654,115 @@ public class AdminFrame extends javax.swing.JFrame {
         DeleteButtonLogic();//Calling delete button logic
     }//GEN-LAST:event_btnDeleteEmpActionPerformed
 
+    private void cmbboxSortbyIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbboxSortbyIDActionPerformed
+        int BoxValue = cmbboxSortbyID.getSelectedIndex();
+        
+        if (BoxValue == 1) //Selection sort in ascending order
+        {
+            employeeTable.setRowCount(0);
+            List<EmployeeModel> sortedList = selectionSort.sortByEmpID(linkedList, false);
+            for(EmployeeModel employee : sortedList) 
+            {
+                AddingEmployee(employee);
+            }
+        }
+        else if(BoxValue == 2)//Selection sort in desceding order
+        {
+             employeeTable.setRowCount(0);
+            List<EmployeeModel> sortedList = selectionSort.sortByEmpID(linkedList, true);
+            for(EmployeeModel employee : sortedList) 
+            {
+                AddingEmployee(employee);
+            }
+        }
+        cmbboxSortbyID.setSelectedIndex(0);
+    }//GEN-LAST:event_cmbboxSortbyIDActionPerformed
+
+    private void cmbboxSortbyNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbboxSortbyNameActionPerformed
+        int BoxValue = cmbboxSortbyName.getSelectedIndex();
+
+        if (BoxValue == 1) //Insertion sort in ascending order
+        { 
+            employeeTable.setRowCount(0);
+            List<EmployeeModel> sortedList = insertionSort.sortByName(linkedList, false);
+            for(EmployeeModel employee : sortedList) 
+            {
+                AddingEmployee(employee);
+            }
+        }
+        else if(BoxValue == 2) //Insertion sort in desceding order
+        { 
+            employeeTable.setRowCount(0);
+            List<EmployeeModel> sortedList = insertionSort.sortByName(linkedList, true);
+            for(EmployeeModel employee : sortedList) 
+            {
+                AddingEmployee(employee);
+            }
+        }
+        cmbboxSortbyName.setSelectedIndex(0);
+    }//GEN-LAST:event_cmbboxSortbyNameActionPerformed
+
+    private void btnSeachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeachActionPerformed
+        
+        //Sorting the list in ascending order
+        List<EmployeeModel> sortedList = insertionSort.sortByName(linkedList, false);
+        
+        // Input validation
+        String searchText = txtFldSearch.getText().trim();
+        if (searchText.isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Please enter a name to search", "Warning", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        BinarySearch search = new BinarySearch();
+        EmployeeModel searchedData = search.searchByName(searchText, sortedList, 0, sortedList.size()-1);
+        
+        if(searchedData != null) { 
+            //Display the result in JOptionPane 
+            String Result =
+                "Employee Details:\n\n" +
+                "ID: " + searchedData.getEmpID() + "\n" +
+                "Name: " + searchedData.getFullName() + "\n" +
+                "Position: " + searchedData.getPosition() + "\n" +
+                "Address: " + searchedData.getAddress() + "\n" +
+                "Contact: " + searchedData.getContactNo() + "\n" +
+                "Age: " + searchedData.getAge() + "\n" +
+                "Contract Period: " + searchedData.getContractPeriod() + " years";
+            
+            JOptionPane.showMessageDialog(rootPane, Result, "Search Result", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Sorry, the person is not in our Database", "Information",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSeachActionPerformed
+
+    private void txtFldSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFldSearchActionPerformed
+
+    private void cmbboxSortbyPositionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbboxSortbyPositionActionPerformed
+       int BoxValue = cmbboxSortbyPosition.getSelectedIndex();
+
+        if (BoxValue == 1) //Merge sort in ascending order
+        {
+            employeeTable.setRowCount(0);
+            List<EmployeeModel> sortedList = mergeSort.sortByPosition(linkedList, false);
+            for(EmployeeModel employee : sortedList) 
+            {
+                AddingEmployee(employee);
+            }
+        }
+        else if(BoxValue == 2) //Merge sort in desceding order
+        {
+            employeeTable.setRowCount(0);
+            List<EmployeeModel> sortedList = mergeSort.sortByPosition(linkedList, true);
+            for(EmployeeModel employee : sortedList) 
+            {
+                AddingEmployee(employee);
+            }
+        }
+        cmbboxSortbyPosition.setSelectedIndex(0);
+    }//GEN-LAST:event_cmbboxSortbyPositionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -609,7 +797,9 @@ public class AdminFrame extends javax.swing.JFrame {
             }
         });
     }
-
+    /**
+    * Button process/logic for returning back to Login page
+    */
     public void ReturnToLogin(){ //Returning to login page
         EmployeeApp Return = new EmployeeApp();
         int choiceofUser =  JOptionPane.showConfirmDialog(rootPane, "Do you want to return back to login page??", "Confirmation", JOptionPane.YES_NO_OPTION);
@@ -620,6 +810,9 @@ public class AdminFrame extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Pre-added data for the table
+     */
     public void PreviousEmployees(){ //Values in table by default
         
         //Object creation
@@ -659,6 +852,11 @@ public class AdminFrame extends javax.swing.JFrame {
     }
     
     
+    
+    /**
+     * Button to add details of the employee in the table
+     */
+    
     //Add Button
     public void AddButtonLogic(){
         if(txtFldEmpID.getText().isEmpty() || txtFldFullName.getText().isEmpty() || txtFldAddress.getText().isEmpty() || txtFldContact.getText().isEmpty() || txtFldAge.getText().isEmpty() || txtFldPosition.getText().isEmpty() || txtFldContract.getText().isEmpty()){
@@ -667,7 +865,7 @@ public class AdminFrame extends javax.swing.JFrame {
         }
         
         try{ //Exception Handling
-            
+        //Variable declaration for storing the text that is extracted from the JTextField
             int empID = Integer.parseInt(txtFldEmpID.getText());
             String fullName = txtFldFullName.getText();
             String Address = txtFldAddress.getText();
@@ -704,11 +902,16 @@ public class AdminFrame extends javax.swing.JFrame {
             }
             
         }
-        catch(NumberFormatException E1){
+        catch(NumberFormatException E1){ //Exception Handling
             JOptionPane.showMessageDialog(rootPane,"Wrong data type. Employee ID, Contact No. , Age and Contract Period should be an Integer","Warning",JOptionPane.WARNING_MESSAGE);
             return;
         }
     }
+    /**
+     * Adding new data into the table
+     * 
+     * @param Employee parameter passed to extract data from EmployeeModel
+     */
     
     public void AddingEmployee(EmployeeModel Employee){
         
@@ -717,6 +920,9 @@ public class AdminFrame extends javax.swing.JFrame {
     }
     
     
+    /**
+     * Updating already existing data in the table
+     */
     // Update Button
     public void UpdateButtonLogic() {
     if(txtFldEmpID.getText().isEmpty() || txtFldFullName.getText().isEmpty() || txtFldAddress.getText().isEmpty() || txtFldContact.getText().isEmpty() || txtFldAge.getText().isEmpty() || txtFldPosition.getText().isEmpty() || txtFldContract.getText().isEmpty()) {
@@ -725,6 +931,7 @@ public class AdminFrame extends javax.swing.JFrame {
     }
     
     try { //exception handling
+        //Variable declaration for storing the text that is extracted from the JTextField
         int empID = Integer.parseInt(txtFldEmpID.getText());
         String fullName = txtFldFullName.getText();
         String address = txtFldAddress.getText();
@@ -758,11 +965,13 @@ public class AdminFrame extends javax.swing.JFrame {
             }
         }
         
-    } catch(NumberFormatException e) {
+    } catch(NumberFormatException e) { //Exception Handling
         JOptionPane.showMessageDialog(rootPane, "Wrong data type. Employee ID, Contact No., Age and Contract Period should be numbers", "Warning", JOptionPane.WARNING_MESSAGE);
     }
 }
-    
+    /**
+     * Deleting an already existing data in the table
+     */
     // Delete Button
     public void DeleteButtonLogic(){
         if(txtFldEmpID.getText().isEmpty() || txtFldFullName.getText().isEmpty() || txtFldAddress.getText().isEmpty() || txtFldContact.getText().isEmpty() || txtFldAge.getText().isEmpty() || txtFldPosition.getText().isEmpty() || txtFldContract.getText().isEmpty()){
@@ -800,12 +1009,15 @@ public class AdminFrame extends javax.swing.JFrame {
             }
             
         }
-        catch(NumberFormatException E1){
+        catch(NumberFormatException E1){//Exception Handling
             JOptionPane.showMessageDialog(rootPane,"Wrong data type. Employee ID, Contact No. , Age and Contract Period should be an Integer","Warning",JOptionPane.WARNING_MESSAGE);
             return;
         }
     }
-    
+    /**
+     * Core process/logic for removing data from table
+     * @param Employee parameter used to extract data from EmployeeModel
+     */
     public void DeletingEmployee(EmployeeModel Employee) { //deleting employee main code
         
         for (int i = 0; i < employeeTable.getRowCount(); i++) {
@@ -816,6 +1028,9 @@ public class AdminFrame extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Used to clear out all the JTextFields
+     */
     //Clear Button
     public void ClearButtonLogic(){
         int choiceofUser =  JOptionPane.showConfirmDialog(rootPane, "Do you want to clear all text fields?", "Confirmation", JOptionPane.YES_NO_OPTION);
@@ -836,7 +1051,11 @@ public class AdminFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnClearTxtFld;
     private javax.swing.JButton btnDeleteEmp;
     private javax.swing.JButton btnReturn;
+    private javax.swing.JButton btnSeach;
     private javax.swing.JButton btnUpdateEmp;
+    private javax.swing.JComboBox<String> cmbboxSortbyID;
+    private javax.swing.JComboBox<String> cmbboxSortbyName;
+    private javax.swing.JComboBox<String> cmbboxSortbyPosition;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblAddress;
     private javax.swing.JLabel lblAge;
@@ -873,5 +1092,6 @@ public class AdminFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtFldEmpID;
     private javax.swing.JTextField txtFldFullName;
     private javax.swing.JTextField txtFldPosition;
+    private javax.swing.JTextField txtFldSearch;
     // End of variables declaration//GEN-END:variables
 }

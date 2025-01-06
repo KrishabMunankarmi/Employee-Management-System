@@ -12,6 +12,10 @@ import javax.swing.JOptionPane;
 * LMU ID: 23048630
  */
 public class EmployeeApp extends javax.swing.JFrame {
+    
+    // Creation of Objects for Admin and User frame
+    AdminFrame AFrame = new AdminFrame();
+    UserFrame UFrame = new UserFrame();
 
     /**
      * Creates new form EmployeeApp
@@ -239,7 +243,7 @@ public class EmployeeApp extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnForgotPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnForgotPasswordActionPerformed
-        JOptionPane.showMessageDialog(rootPane,"Please contact the admin ASAP to recover your Username and Password","Information",JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(rootPane,"Please contact the Administration to recover your Username and Password","Information",JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnForgotPasswordActionPerformed
 
     private void ckboxPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckboxPasswordActionPerformed
@@ -289,12 +293,13 @@ public class EmployeeApp extends javax.swing.JFrame {
             }
         });
     }
+    /**
+     * Validates user while logging in the system
+    */
     
     public void LoginValidation(){ //Validation for logging in as admin or user
         String Username = txtFldUsername.getText();
         String Password = passfldPassword.getText();
-        AdminFrame AFrame = new AdminFrame();
-        UserFrame UFrame = new UserFrame();
         
         if("".equals(Username) || "".equals(Password))
         {
