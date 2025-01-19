@@ -23,23 +23,23 @@ public class InsertionSort {
     dataToSort.addAll(unsortedData);
     
     for (int i = 1; i < dataToSort.size(); i++) {
-        EmployeeModel key = dataToSort.get(i);
+        EmployeeModel keyValue = dataToSort.get(i);
         int j = i - 1;
         
         if (value) {
             // Sorting in Descending order
-            while (j >= 0 && dataToSort.get(j).getFullName().compareToIgnoreCase(key.getFullName()) < 0) {
+            while (j >= 0 && dataToSort.get(j).getFullName().compareToIgnoreCase(keyValue.getFullName()) < 0) {
                 dataToSort.set(j + 1, dataToSort.get(j));
                 j--;
             }
         } else {
             // Sorting in Ascending order
-            while (j >= 0 && dataToSort.get(j).getFullName().compareToIgnoreCase(key.getFullName()) > 0) {
+            while (j >= 0 && dataToSort.get(j).getFullName().compareToIgnoreCase(keyValue.getFullName()) > 0) {
                 dataToSort.set(j + 1, dataToSort.get(j));
                 j--;
             }
         }
-        dataToSort.set(j + 1, key);
+        dataToSort.set(j + 1, keyValue);
     }
     return dataToSort;
 }

@@ -9,7 +9,7 @@ import com.employeesystem.controller.algorithms.InsertionSort;
 import com.employeesystem.controller.algorithms.MergeSort;
 import com.employeesystem.controller.algorithms.SelectionSort;
 import com.employeesystem.model.EmployeeModel;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -20,8 +20,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class UserFrame extends javax.swing.JFrame {
 
-    //Creating a new Array List
-    ArrayList<EmployeeModel> arrayList = new ArrayList<EmployeeModel>();
+    //Creating a new Linked List
+    LinkedList<EmployeeModel> linkedList = new LinkedList<EmployeeModel>();
     DefaultTableModel employeeTable;
     
     //Creating Objects for Sorting classes
@@ -402,7 +402,7 @@ public class UserFrame extends javax.swing.JFrame {
         if (BoxValue == 1) //Selection Sorting in ascending order
         {
             employeeTable.setRowCount(0);
-            List<EmployeeModel> sortedList = selectionSort.sortByEmpID(arrayList, false);
+            List<EmployeeModel> sortedList = selectionSort.sortByEmpID(linkedList, false);
             for(EmployeeModel employee : sortedList)
             {
                 AddingEmployeesToTable(employee);
@@ -411,7 +411,7 @@ public class UserFrame extends javax.swing.JFrame {
         else if(BoxValue == 2)//Selection Sorting in descending order
         {
             employeeTable.setRowCount(0);
-            List<EmployeeModel> sortedList = selectionSort.sortByEmpID(arrayList, true);
+            List<EmployeeModel> sortedList = selectionSort.sortByEmpID(linkedList, true);
             for(EmployeeModel employee : sortedList)
             {
                 AddingEmployeesToTable(employee);
@@ -425,7 +425,7 @@ public class UserFrame extends javax.swing.JFrame {
 
         if (BoxValue == 1) { //Insertion Sorting in ascending order
             employeeTable.setRowCount(0);
-            List<EmployeeModel> sortedList = insertionSort.sortByName(arrayList, false);
+            List<EmployeeModel> sortedList = insertionSort.sortByName(linkedList, false);
             for(EmployeeModel employee : sortedList)
             {
                 AddingEmployeesToTable(employee);
@@ -433,7 +433,7 @@ public class UserFrame extends javax.swing.JFrame {
         }
         else if(BoxValue == 2) {//Insertion Sorting in descending order
             employeeTable.setRowCount(0);
-            List<EmployeeModel> sortedList = insertionSort.sortByName(arrayList, true);
+            List<EmployeeModel> sortedList = insertionSort.sortByName(linkedList, true);
             for(EmployeeModel employee : sortedList)
             {
                 AddingEmployeesToTable(employee);
@@ -447,7 +447,7 @@ public class UserFrame extends javax.swing.JFrame {
 
         if (BoxValue == 1) { //Merge Sorting in ascending order
             employeeTable.setRowCount(0);
-            List<EmployeeModel> sortedList = mergeSort.sortByPosition(arrayList, false);
+            List<EmployeeModel> sortedList = mergeSort.sortByPosition(linkedList, false);
             for(EmployeeModel employee : sortedList)
             {
                 AddingEmployeesToTable(employee);
@@ -455,7 +455,7 @@ public class UserFrame extends javax.swing.JFrame {
         }
         else if(BoxValue == 2) { //Merge Sorting in descending order
             employeeTable.setRowCount(0);
-            List<EmployeeModel> sortedList = mergeSort.sortByPosition(arrayList, true);
+            List<EmployeeModel> sortedList = mergeSort.sortByPosition(linkedList, true);
             for(EmployeeModel employee : sortedList)
             {
                 AddingEmployeesToTable(employee);
@@ -470,7 +470,7 @@ public class UserFrame extends javax.swing.JFrame {
 
     private void btnSeachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeachActionPerformed
         // Sort in ascending order (false parameter) for binary search to work correctly
-        List<EmployeeModel> sortedList = insertionSort.sortByName(arrayList, false);
+        List<EmployeeModel> sortedList = insertionSort.sortByName(linkedList, false);
 
         // Input validation
         String searchText = txtFldSearch.getText().trim();
@@ -551,25 +551,25 @@ public class UserFrame extends javax.swing.JFrame {
         EmployeeModel Employee10 = new EmployeeModel(10, "Puspa Singh", "Kathmandu", "9841236579", 45, "Designer", 10);
         
         //adding the data in both table and arraylist
-        arrayList.add(Employee1);
+        linkedList.add(Employee1);
         AddingEmployeesToTable(Employee1);
-        arrayList.add(Employee2);
+        linkedList.add(Employee2);
         AddingEmployeesToTable(Employee2);
-        arrayList.add(Employee3);
+        linkedList.add(Employee3);
         AddingEmployeesToTable(Employee3);
-        arrayList.add(Employee4);
+        linkedList.add(Employee4);
         AddingEmployeesToTable(Employee4);
-        arrayList.add(Employee5);
+        linkedList.add(Employee5);
         AddingEmployeesToTable(Employee5);
-        arrayList.add(Employee6);
+        linkedList.add(Employee6);
         AddingEmployeesToTable(Employee6);
-        arrayList.add(Employee7);
+        linkedList.add(Employee7);
         AddingEmployeesToTable(Employee7);
-        arrayList.add(Employee8);
+        linkedList.add(Employee8);
         AddingEmployeesToTable(Employee8);
-        arrayList.add(Employee9);
+        linkedList.add(Employee9);
         AddingEmployeesToTable(Employee9);
-        arrayList.add(Employee10);
+        linkedList.add(Employee10);
         AddingEmployeesToTable(Employee10);
         
     }

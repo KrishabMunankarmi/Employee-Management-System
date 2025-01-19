@@ -10,13 +10,13 @@ package com.employeesystem.model;
  */
 public class EmployeeModel {
     //Creating global variables
-    int empID;
-    String fullName;
-    String Address;
-    String contactNo;
-    int Age;
-    String Position;
-    int contractPeriod;
+    public int empID;
+    public String fullName;
+    public String Address;
+    public String contactNo;
+    public int Age;
+    public String Position;
+    public int contractPeriod;
     
     //Creating a constructor
     public EmployeeModel(int empID, String fullName, String Address, String contactNo, int Age, String Position, int contractPeriod){
